@@ -2,7 +2,10 @@ import express from "express";
 import {
   checklogin,
   CreateUser,
+  deletefeedback,
   DeleteUser,
+  feedbackReadUpdate,
+  getfeedbacks,
   makerecommendation,
   sendemailauto,
   sendfeedbacks,
@@ -21,5 +24,13 @@ router.post("/sendemail", sendemailauto);
 router.post("/makerecommendation", makerecommendation);
 //sendfeedback
 router.post("/sendfeedbacks", sendfeedbacks);
+//getFeedback
+router.get("/getfeedbacks",getfeedbacks)
+//feedback read update
+router.post("/feedbackReadUpdate",feedbackReadUpdate)
+//feedback deleting 
+router.post("/deletefeedback",deletefeedback)
+
+
 
 export default router;

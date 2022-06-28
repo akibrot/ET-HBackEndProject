@@ -163,3 +163,39 @@ export const sendfeedbacks = async (req, res) => {
     console.log("feedback recived");
   }
 };
+//getfeedbacks
+
+export const getfeedbacks = async (req, res) => {
+  const save = await FeedbackModel.find();
+  if (save) {
+    res.send(save);
+    console.log("feedback route reched data loaded");
+  } else res.status(201).send("no data found");
+};
+
+//feedbackReadUpdate
+export const feedbackReadUpdate = async (req, res) => {
+    
+  var data;
+  if (req.body.strik == true) {
+    data = false;
+  } else if (req.body.strik == false) {
+    data = true;
+  }
+  
+  const save = await FeedbackModel.findByIdAndUpdate(req.body._id, {
+    readed: data,
+  });
+  if (save) {
+    console.log("feedback read updated");
+  }
+  else res.status(201).send("no data found")
+};
+//delete feedbackes
+export const deletefeedback = async (req, res) => {
+  const deletefeed = await FeedbackModel.findByIdAndDelete(req.body._id)
+  if (deletefeed) {
+    res.send("feedbavkdeleted");
+    console.log("feedback deleted");
+  } else res.status(201).send("no data found");
+};
