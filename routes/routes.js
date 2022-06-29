@@ -6,6 +6,7 @@ import {
   DeleteUser,
   feedbackReadUpdate,
   getfeedbacks,
+  getrecomdations,
   makerecommendation,
   sendemailauto,
   sendfeedbacks,
@@ -30,6 +31,10 @@ router.get("/getfeedbacks",getfeedbacks)
 router.post("/feedbackReadUpdate",feedbackReadUpdate)
 //feedback deleting 
 router.post("/deletefeedback",deletefeedback)
+//get recomdations
+router.get("/getrecomdations",getrecomdations)
+
+
 
 
 

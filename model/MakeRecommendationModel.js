@@ -9,6 +9,10 @@ const recommendationsSchema = mongoose.Schema({
   Descriptions: { type: String },
   Pics: { type: Array },
   Videos: { type: Array },
+  Region: { type: String },
+  Phone: { type: String },
+  Linkmap: { type: String },
+  Link2: { type: String },
 });
 
 const RecommendationsModel = mongoose.model(

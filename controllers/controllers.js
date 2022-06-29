@@ -62,6 +62,8 @@ export const checklogin = async (req, res) => {
       LastName: NormalUser.LastName,
       Address: NormalUser.Address,
       Email: NormalUser.Email,
+      Phone:NormalUser.Phone,
+      Region:NormalUser.Region,
     };
     const usertype = {
       Normaluser: true,
@@ -197,5 +199,15 @@ export const deletefeedback = async (req, res) => {
   if (deletefeed) {
     res.send("feedbavkdeleted");
     console.log("feedback deleted");
+  } else res.status(201).send("no data found");
+};
+
+
+//get recomdations
+export const getrecomdations = async (req, res) => {
+  const save = await RecommendationsModel.find();
+  if (save) {
+    res.send(save);
+    console.log("getrecomdations route reched data loaded");
   } else res.status(201).send("no data found");
 };
