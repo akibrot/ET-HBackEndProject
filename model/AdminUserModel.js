@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
 
 const adminuserschema = mongoose.Schema({
-  FirstName: { type: String },
-  LastName: { type: String },
+  FullName: { type: String },
   Address: { type: String },
   Email: { type: String, unique: true },
   Phone: { type: String },
   Password: { type: String },
-  Profilepic: { type: Object },
+  Profilepic: { type: String },
   
 
 });

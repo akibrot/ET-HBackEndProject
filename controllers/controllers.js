@@ -5,6 +5,7 @@ import FeedbackModel from "../model/Feedback.js";
 import CustomerUserModel from "../model/CustomerUserModel.js";
 import AgentuserModel from "../model/AgentUserModel.js";
 import AdminUserModel from "../model/AdminUserModel.js";
+import HeritagesModel from "../model/HeritageModel.js";
 export const welcome = (req, res) => {
   res.send("server started sucesfully");
 };
@@ -62,8 +63,8 @@ export const checklogin = async (req, res) => {
       LastName: NormalUser.LastName,
       Address: NormalUser.Address,
       Email: NormalUser.Email,
-      Phone:NormalUser.Phone,
-      Region:NormalUser.Region,
+      Phone: NormalUser.Phone,
+      Region: NormalUser.Region,
     };
     const usertype = {
       Normaluser: true,
@@ -95,7 +96,7 @@ export const checklogin = async (req, res) => {
       FirstName: AdminUser.FirstName,
       LastName: AdminUser.LastName,
 
-      Email: NormalUser.Email,
+      Email: AdminUser.Email,
     };
     const usertype = {
       Normaluser: false,
@@ -177,31 +178,28 @@ export const getfeedbacks = async (req, res) => {
 
 //feedbackReadUpdate
 export const feedbackReadUpdate = async (req, res) => {
-    
   var data;
   if (req.body.strik == true) {
     data = false;
   } else if (req.body.strik == false) {
     data = true;
   }
-  
+
   const save = await FeedbackModel.findByIdAndUpdate(req.body._id, {
     readed: data,
   });
   if (save) {
     console.log("feedback read updated");
-  }
-  else res.status(201).send("no data found")
+  } else res.status(201).send("no data found");
 };
 //delete feedbackes
 export const deletefeedback = async (req, res) => {
-  const deletefeed = await FeedbackModel.findByIdAndDelete(req.body._id)
+  const deletefeed = await FeedbackModel.findByIdAndDelete(req.body._id);
   if (deletefeed) {
     res.send("feedbavkdeleted");
     console.log("feedback deleted");
   } else res.status(201).send("no data found");
 };
-
 
 //get recomdations
 export const getrecomdations = async (req, res) => {
@@ -209,5 +207,69 @@ export const getrecomdations = async (req, res) => {
   if (save) {
     res.send(save);
     console.log("getrecomdations route reched data loaded");
+  } else res.status(201).send("no data found");
+};
+////publish Heritages
+
+export const publishHeritage = async (req, res) => {
+  console.log("riched heritage ppose");
+  const save = await HeritagesModel.insertMany(req.body);
+  if (save) {
+    res.send("heritage posted");
+    console.log("heritage posted");
+  }
+};
+
+///createagentsaccount
+export const createagentsaccount = async (req, res) => {
+  console.log("agent create route");
+  const save = await AgentuserModel.insertMany(req.body);
+  if (save) {
+    res.send("agent created");
+    console.log("agent created");
+  }
+};
+///get agent accounn user
+export const getagentaccount = async (req, res) => {
+  const save = await AgentuserModel.find();
+  const arr = [];
+  if (save) {
+    res.send(save);
+    console.log("getrecomdations route reched data loaded");
+  } else res.status(201).send("no data found");
+};
+
+//delete agent account
+export const deleteagentaccount = async (req, res) => {
+  const deletefeed = await AgentuserModel.findByIdAndDelete(req.body._id);
+  if (deletefeed) {
+    res.send("feedbavkdeleted");
+    console.log("feedback deleted");
+  } else res.status(201).send("no data found");
+};
+
+//create admin account
+export const createadminaccount = async (req, res) => {
+  console.log("agent create route");
+  const save = await AdminUserModel.insertMany(req.body);
+  if (save) {
+    res.send("admin created");
+    console.log("admin created");
+  }
+};
+//get all admins
+export const getadminaccount = async (req, res) => {
+  const save = await AdminUserModel.find();
+  if (save) {
+    res.send(save);
+    console.log("get admin accounts data loaded");
+  } else res.status(201).send("no data found");
+};
+//delete admins
+export const deleteadminaccounts = async (req, res) => {
+  const deletefeed = await AdminUserModel.findByIdAndDelete(req.body._id);
+  if (deletefeed) {
+    res.send("admin deletede");
+    console.log("admin deleted ");
   } else res.status(201).send("no data found");
 };

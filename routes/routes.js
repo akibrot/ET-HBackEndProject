@@ -1,13 +1,20 @@
 import express from "express";
 import {
   checklogin,
+  createadminaccount,
+  createagentsaccount,
   CreateUser,
+  deleteadminaccounts,
+  deleteagentaccount,
   deletefeedback,
   DeleteUser,
   feedbackReadUpdate,
+  getadminaccount,
+  getagentaccount,
   getfeedbacks,
   getrecomdations,
   makerecommendation,
+  publishHeritage,
   sendemailauto,
   sendfeedbacks,
   welcome,
@@ -33,6 +40,32 @@ router.post("/feedbackReadUpdate",feedbackReadUpdate)
 router.post("/deletefeedback",deletefeedback)
 //get recomdations
 router.get("/getrecomdations",getrecomdations)
+//publish heritage
+router.post("/publishHeritage",publishHeritage)
+///create agent account
+router.post("/createagentsaccount",createagentsaccount)
+//get agent account
+router.get("/getagentaccount",getagentaccount)
+//deleting agent
+router.post("/deleteagentaccount",deleteagentaccount)
+//createing admin accounts
+router.post("/createadminaccount",createadminaccount)
+//get admin accounts
+router.get("/getadminaccount",getadminaccount)
+//deleting admins 
+router.post("/deleteadminaccounts",deleteadminaccounts)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
