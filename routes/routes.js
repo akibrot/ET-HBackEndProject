@@ -18,6 +18,7 @@ import {
   getstastics,
   makerecommendation,
   publishHeritage,
+  pushnotifications,
   sendemailauto,
   sendfeedbacks,
   welcome,
@@ -64,5 +65,7 @@ router.get("/getadminaccount", getadminaccount);
 router.post("/deleteadminaccounts", deleteadminaccounts);
 //get stastics
 router.get("/getstastics", getstastics);
+//push notifications
+router.get("/pushnotifications", pushnotifications);
 
 export default router;
