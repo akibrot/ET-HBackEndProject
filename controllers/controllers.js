@@ -38,6 +38,23 @@ export const DeleteUser = async (req, res) => {
   });
   res.send(save);
 };
+//get customers
+export const getcustomers = async (req, res) => {
+  console.log("get customer riched");
+  const save = await CustomerUserModel.find();
+  if (save) {
+    res.send(save);
+    console.log("feedback route reched data loaded");
+  } else res.status(201).send("no data found");
+};
+//delete customer account
+export const deletecustomers = async (req, res) => {
+  const deletefeed = await CustomerUserModel.findByIdAndDelete(req.body._id);
+  if (deletefeed) {
+    res.send("customer deleted");
+    console.log("customer deleted");
+  } else res.status(201).send("no data found");
+};
 ///logincheck
 
 export const checklogin = async (req, res) => {
@@ -272,4 +289,35 @@ export const deleteadminaccounts = async (req, res) => {
     res.send("admin deletede");
     console.log("admin deleted ");
   } else res.status(201).send("no data found");
+};
+
+//getstastics
+export const getstastics = async (req, res) => {
+  const adminnumber = await AdminUserModel.find();
+  const agentnumber = await AgentuserModel.find();
+  const customernumber = await CustomerUserModel.find();
+  const recomendationnum = await RecommendationsModel.find();
+  const feedbacknum = await FeedbackModel.find();
+  const heritagenumber = await HeritagesModel.find();
+  const datatosent = {
+    adminnumber: adminnumber.length,
+    agentnumber: agentnumber.length,
+    customernumber: customernumber.length,
+    recomendationnum: recomendationnum.length,
+    feedbacknum: feedbacknum.length,
+    heritagenumber: heritagenumber.length,
+  };
+
+  try {
+    res.send(datatosent);
+    console.log("statics sent");
+  } catch {
+    console.log("error happend");
+  }
+};
+
+//pushnotifications
+export const pushnotifications = async (req, res) => {
+  // const Agents=await AgentuserModel.find()
+  // Agents.Notification
 };
