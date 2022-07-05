@@ -6,9 +6,11 @@ import CustomerUserModel from "../model/CustomerUserModel.js";
 import AgentuserModel from "../model/AgentUserModel.js";
 import AdminUserModel from "../model/AdminUserModel.js";
 import HeritagesModel from "../model/HeritageModel.js";
-export const welcome = (req, res) => {
+import expressAsyncHandler from "express-async-handler";
+
+export const welcome = expressAsyncHandler((req, res) => {
   res.send("server started sucesfully");
-};
+});
 const name = {
   FirstName: "aki",
   LastName: "sami",
@@ -17,7 +19,7 @@ const name = {
   Password: "123",
 };
 //Manage Normal User
-export const CreateUser = async (req, res) => {
+export const CreateUser = expressAsyncHandler(async (req, res) => {
   // console.log(req.body.Email);
   const check = await CustomerUserModel.findOne({ Email: req.body.Email });
 
@@ -28,8 +30,8 @@ export const CreateUser = async (req, res) => {
     res.send("user registerd");
   }
   // console.log("saved")
-};
-export const DeleteUser = async (req, res) => {
+});
+export const DeleteUser = expressAsyncHandler(async (req, res) => {
   const save = await CustomerUserModel.findById({
     _id: "625f17e5d19268b751c6324b",
   });
@@ -37,27 +39,27 @@ export const DeleteUser = async (req, res) => {
     _id: "625f17e5d19268b751c6324b",
   });
   res.send(save);
-};
+});
 //get customers
-export const getcustomers = async (req, res) => {
+export const getcustomers = expressAsyncHandler(async (req, res) => {
   console.log("get customer riched");
   const save = await CustomerUserModel.find();
   if (save) {
     res.send(save);
     console.log("feedback route reched data loaded");
   } else res.status(201).send("no data found");
-};
+});
 //delete customer account
-export const deletecustomers = async (req, res) => {
+export const deletecustomers = expressAsyncHandler(async (req, res) => {
   const deletefeed = await CustomerUserModel.findByIdAndDelete(req.body._id);
   if (deletefeed) {
     res.send("customer deleted");
     console.log("customer deleted");
   } else res.status(201).send("no data found");
-};
+});
 ///logincheck
 
-export const checklogin = async (req, res) => {
+export const checklogin = expressAsyncHandler(async (req, res) => {
   console.log("route reched");
   console.log(req.body);
   const NormalUser = await CustomerUserModel.findOne({
@@ -126,19 +128,19 @@ export const checklogin = async (req, res) => {
   } else {
     res.status(400).send("no user found");
   }
-};
+});
 
 //make recommendations
-export const makerecommendation = async (req, res) => {
+export const makerecommendation = expressAsyncHandler(async (req, res) => {
   console.log(req.body);
   const save = await RecommendationsModel.insertMany(req.body);
   if (save) {
     res.send("recived");
   }
-};
+});
 //sendauto email for password recovery
 
-export const sendemailauto = async (req, res) => {
+export const sendemailauto = expressAsyncHandler(async (req, res) => {
   console.log(req.body);
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -174,27 +176,27 @@ export const sendemailauto = async (req, res) => {
     console.log("user not found");
     res.status(404).send("user not found");
   }
-};
+});
 //send feedbacks
-export const sendfeedbacks = async (req, res) => {
+export const sendfeedbacks = expressAsyncHandler(async (req, res) => {
   const save = await FeedbackModel.insertMany(req.body);
   if (save) {
     res.send("recived");
     console.log("feedback recived");
   }
-};
+});
 //getfeedbacks
 
-export const getfeedbacks = async (req, res) => {
+export const getfeedbacks = expressAsyncHandler(async (req, res) => {
   const save = await FeedbackModel.find();
   if (save) {
     res.send(save);
     console.log("feedback route reched data loaded");
   } else res.status(201).send("no data found");
-};
+});
 
 //feedbackReadUpdate
-export const feedbackReadUpdate = async (req, res) => {
+export const feedbackReadUpdate = expressAsyncHandler(async (req, res) => {
   var data;
   if (req.body.strik == true) {
     data = false;
@@ -208,91 +210,91 @@ export const feedbackReadUpdate = async (req, res) => {
   if (save) {
     console.log("feedback read updated");
   } else res.status(201).send("no data found");
-};
+});
 //delete feedbackes
-export const deletefeedback = async (req, res) => {
+export const deletefeedback = expressAsyncHandler(async (req, res) => {
   const deletefeed = await FeedbackModel.findByIdAndDelete(req.body._id);
   if (deletefeed) {
     res.send("feedbavkdeleted");
     console.log("feedback deleted");
   } else res.status(201).send("no data found");
-};
+});
 
 //get recomdations
-export const getrecomdations = async (req, res) => {
+export const getrecomdations =expressAsyncHandler( async (req, res) => {
   const save = await RecommendationsModel.find();
   if (save) {
     res.send(save);
     console.log("getrecomdations route reched data loaded");
   } else res.status(201).send("no data found");
-};
+});
 ////publish Heritages
 
-export const publishHeritage = async (req, res) => {
+export const publishHeritage =expressAsyncHandler( async (req, res) => {
   console.log("riched heritage ppose");
   const save = await HeritagesModel.insertMany(req.body);
   if (save) {
     res.send("heritage posted");
     console.log("heritage posted");
   }
-};
+});
 
 ///createagentsaccount
-export const createagentsaccount = async (req, res) => {
+export const createagentsaccount =expressAsyncHandler( async (req, res) => {
   console.log("agent create route");
   const save = await AgentuserModel.insertMany(req.body);
   if (save) {
     res.send("agent created");
     console.log("agent created");
   }
-};
+});
 ///get agent accounn user
-export const getagentaccount = async (req, res) => {
+export const getagentaccount =expressAsyncHandler( async (req, res) => {
   const save = await AgentuserModel.find();
   const arr = [];
   if (save) {
     res.send(save);
     console.log("getrecomdations route reched data loaded");
   } else res.status(201).send("no data found");
-};
+});
 
 //delete agent account
-export const deleteagentaccount = async (req, res) => {
+export const deleteagentaccount =expressAsyncHandler( async (req, res) => {
   const deletefeed = await AgentuserModel.findByIdAndDelete(req.body._id);
   if (deletefeed) {
     res.send("feedbavkdeleted");
     console.log("feedback deleted");
   } else res.status(201).send("no data found");
-};
+});
 
 //create admin account
-export const createadminaccount = async (req, res) => {
+export const createadminaccount = expressAsyncHandler(async (req, res) => {
   console.log("agent create route");
   const save = await AdminUserModel.insertMany(req.body);
   if (save) {
     res.send("admin created");
     console.log("admin created");
   }
-};
+});
 //get all admins
-export const getadminaccount = async (req, res) => {
+export const getadminaccount = expressAsyncHandler(async (req, res) => {
   const save = await AdminUserModel.find();
   if (save) {
     res.send(save);
     console.log("get admin accounts data loaded");
   } else res.status(201).send("no data found");
-};
+});
 //delete admins
-export const deleteadminaccounts = async (req, res) => {
+export const deleteadminaccounts = expressAsyncHandler(async (req, res) => {
   const deletefeed = await AdminUserModel.findByIdAndDelete(req.body._id);
   if (deletefeed) {
     res.send("admin deletede");
     console.log("admin deleted ");
   } else res.status(201).send("no data found");
-};
+});
 
 //getstastics
-export const getstastics = async (req, res) => {
+export const getstastics =expressAsyncHandler( async (req, res) => {
   const adminnumber = await AdminUserModel.find();
   const agentnumber = await AgentuserModel.find();
   const customernumber = await CustomerUserModel.find();
@@ -314,10 +316,10 @@ export const getstastics = async (req, res) => {
   } catch {
     console.log("error happend");
   }
-};
+});
 
 //pushnotifications
-export const pushnotifications = async (req, res) => {
+export const pushnotifications = expressAsyncHandler(async (req, res) => {
   // const Agents=await AgentuserModel.find()
   // Agents.Notification
-};
+});
