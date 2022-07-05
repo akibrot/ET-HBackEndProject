@@ -16,5 +16,8 @@
     "express": "^4.17.3",
     "mongoose": "^6.2.7",
     "nodemailer": "^6.7.4"
+  },
+  "engines": {
+    "node": "16.14.2"
   }
 }
