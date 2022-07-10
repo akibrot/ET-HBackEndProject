@@ -7,6 +7,8 @@ import AgentuserModel from "../model/AgentUserModel.js";
 import AdminUserModel from "../model/AdminUserModel.js";
 import HeritagesModel from "../model/HeritageModel.js";
 import expressAsyncHandler from "express-async-handler";
+import CategoryList from "../model/Category.js";
+import PushNotificationModel from "../model/PushNotificationModel.js";
 
 export const welcome = expressAsyncHandler((req, res) => {
   res.send("server started sucesfully");
@@ -97,10 +99,14 @@ export const checklogin = expressAsyncHandler(async (req, res) => {
     console.log("user found");
 
     const userinfo = {
-      FirstName: AgentUser.FirstName,
-      LastName: AgentUser.LastName,
+      FullName: AgentUser.FullName,
       Address: AgentUser.Address,
       Email: AgentUser.Email,
+      Phone: AgentUser.Phone,
+      Profilepic: AgentUser.Profilepic,
+      Notification: AgentUser.Notification,
+      Recommended: AgentUser.Recommended,
+      Posted: AgentUser.Posted,
     };
     const usertype = {
       Normaluser: false,
@@ -112,10 +118,11 @@ export const checklogin = expressAsyncHandler(async (req, res) => {
     res.status(200).send(usertype);
   } else if (AdminUser) {
     const userinfo = {
-      FirstName: AdminUser.FirstName,
-      LastName: AdminUser.LastName,
-
+      FullName: AdminUser.FullName,
+      Address: AdminUser.Address,
       Email: AdminUser.Email,
+      Phone: AdminUser.Phone,
+      Profile: AdminUser.Profilepic,
     };
     const usertype = {
       Normaluser: false,
@@ -221,7 +228,7 @@ export const deletefeedback = expressAsyncHandler(async (req, res) => {
 });
 
 //get recomdations
-export const getrecomdations =expressAsyncHandler( async (req, res) => {
+export const getrecomdations = expressAsyncHandler(async (req, res) => {
   const save = await RecommendationsModel.find();
   if (save) {
     res.send(save);
@@ -230,7 +237,7 @@ export const getrecomdations =expressAsyncHandler( async (req, res) => {
 });
 ////publish Heritages
 
-export const publishHeritage =expressAsyncHandler( async (req, res) => {
+export const publishHeritage = expressAsyncHandler(async (req, res) => {
   console.log("riched heritage ppose");
   const save = await HeritagesModel.insertMany(req.body);
   if (save) {
@@ -240,7 +247,7 @@ export const publishHeritage =expressAsyncHandler( async (req, res) => {
 });
 
 ///createagentsaccount
-export const createagentsaccount =expressAsyncHandler( async (req, res) => {
+export const createagentsaccount = expressAsyncHandler(async (req, res) => {
   console.log("agent create route");
   const save = await AgentuserModel.insertMany(req.body);
   if (save) {
@@ -249,7 +256,7 @@ export const createagentsaccount =expressAsyncHandler( async (req, res) => {
   }
 });
 ///get agent accounn user
-export const getagentaccount =expressAsyncHandler( async (req, res) => {
+export const getagentaccount = expressAsyncHandler(async (req, res) => {
   const save = await AgentuserModel.find();
   const arr = [];
   if (save) {
@@ -259,7 +266,7 @@ export const getagentaccount =expressAsyncHandler( async (req, res) => {
 });
 
 //delete agent account
-export const deleteagentaccount =expressAsyncHandler( async (req, res) => {
+export const deleteagentaccount = expressAsyncHandler(async (req, res) => {
   const deletefeed = await AgentuserModel.findByIdAndDelete(req.body._id);
   if (deletefeed) {
     res.send("feedbavkdeleted");
@@ -294,7 +301,7 @@ export const deleteadminaccounts = expressAsyncHandler(async (req, res) => {
 });
 
 //getstastics
-export const getstastics =expressAsyncHandler( async (req, res) => {
+export const getstastics = expressAsyncHandler(async (req, res) => {
   const adminnumber = await AdminUserModel.find();
   const agentnumber = await AgentuserModel.find();
   const customernumber = await CustomerUserModel.find();
@@ -320,6 +327,91 @@ export const getstastics =expressAsyncHandler( async (req, res) => {
 
 //pushnotifications
 export const pushnotifications = expressAsyncHandler(async (req, res) => {
-  // const Agents=await AgentuserModel.find()
-  // Agents.Notification
+  console.log(req.body);
+  const insertinnotificationdb = await PushNotificationModel.insertMany(
+    req.body
+  );
+  if (insertinnotificationdb) {
+    const loadnoti = await PushNotificationModel.find();
+    // console.log(loadnoti);
+    const Agents = await AgentuserModel.updateMany({ Notification: loadnoti });
+    if(Agents){
+    res.send("notifications updated");
+    console.log("noti inserted");
+    }
+  }
+  const test = [
+    {
+      subject: "test subject",
+      discription: "test description",
+    },
+    {
+      subject: "test subject 2",
+      discription: "test description 2",
+    },
+    {
+      subject: "test subject 4",
+      discription: "test description 2",
+    },
+  ];
+  // const Agents = await AgentuserModel.updateMany({Notification:test});
+  // const Agents2 = await AgentuserModel.up({Notification:test});
+  // const test1=Agents.filter((f)=>f.Notification.length>0)
+  // console.log(test1)
+  // if (Agents) {
+  //   console.log("data saved");
+  //   res.send("inserted")
+  // }
+});
+//create category
+export const createcategory = expressAsyncHandler(async (req, res) => {
+  console.log("category  route");
+  const save = await CategoryList.insertMany(req.body);
+  if (save) {
+    res.send("category created");
+    console.log("category  created");
+  }
+});
+//get all category
+export const getallcategory = expressAsyncHandler(async (req, res) => {
+  const save = await CategoryList.find();
+  if (save) {
+    res.send(save);
+    console.log("get admin accounts data loaded");
+  } else res.status(201).send("no data found");
+});
+//delete category
+export const deletecategory = expressAsyncHandler(async (req, res) => {
+  const deletefeed = await CategoryList.findByIdAndDelete(req.body._id);
+  if (deletefeed) {
+    res.send("category deletede");
+    console.log("category deleted ");
+  } else res.status(201).send("no data found");
+});
+
+//searchforheritages
+export const searchforheritages = expressAsyncHandler(async (req, res) => {
+  const searchkey = req.body.searchkey;
+  // const save = await HeritagesModel.find();
+  const save = await HeritagesModel.find({
+    NameOfHeritage: { $regex: searchkey, $options: "-i" },
+  });
+
+  if (save) {
+    res.send(save);
+    console.log("search  data sented");
+    // console.log(save);
+  }
+});
+//get single heritages
+export const getsingleheritage = expressAsyncHandler(async (req, res) => {
+  const id = req.body.id;
+  const save = await HeritagesModel.findById({
+    _id: id,
+  });
+
+  if (save) {
+    res.send(save);
+    console.log("single heritage data sented");
+  }
 });

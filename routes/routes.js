@@ -3,22 +3,27 @@ import {
   checklogin,
   createadminaccount,
   createagentsaccount,
+  createcategory,
   CreateUser,
   deleteadminaccounts,
   deleteagentaccount,
+  deletecategory,
   deletecustomers,
   deletefeedback,
   DeleteUser,
   feedbackReadUpdate,
   getadminaccount,
   getagentaccount,
+  getallcategory,
   getcustomers,
   getfeedbacks,
   getrecomdations,
+  getsingleheritage,
   getstastics,
   makerecommendation,
   publishHeritage,
   pushnotifications,
+  searchforheritages,
   sendemailauto,
   sendfeedbacks,
   welcome,
@@ -66,6 +71,21 @@ router.post("/deleteadminaccounts", deleteadminaccounts);
 //get stastics
 router.get("/getstastics", getstastics);
 //push notifications
-router.get("/pushnotifications", pushnotifications);
+router.post("/pushnotifications", pushnotifications);
+//create category list
+router.post("/createcategory", createcategory);
+//get all category
+router.get("/getallcategory", getallcategory);
+//deletecategory
+router.post("/deletecategory", deletecategory);
+//searchforheritages
+router.post("/searchforheritages", searchforheritages);
+//getsingleheritage
+router.post("/getsingleheritage", getsingleheritage);
+
+
+
+
+
 
 export default router;
