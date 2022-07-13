@@ -9,7 +9,8 @@ import HeritagesModel from "../model/HeritageModel.js";
 import expressAsyncHandler from "express-async-handler";
 import CategoryList from "../model/Category.js";
 import PushNotificationModel from "../model/PushNotificationModel.js";
-
+import dotenv from "dotenv";
+dotenv.config();
 export const welcome = expressAsyncHandler((req, res) => {
   res.send("server started sucesfully");
 });
@@ -151,19 +152,27 @@ export const sendemailauto = expressAsyncHandler(async (req, res) => {
   console.log(req.body);
   const transporter = nodemailer.createTransport({
     service: "gmail",
+
     auth: {
-      user: "akibrotsamuelas@gmail.com",
-      pass: "0932706240",
+      user: 'akibrotsamuelas@gmail.com',
+    pass: 'kbjcmbhlvvyglcfu'
     },
   });
   const user = await CustomerUserModel.findOne({
     Email: req.body.Email,
   });
+  const admin = await AdminUserModel.findOne({
+    Email: req.body.Email,
+  });
+  const agent = await AgentuserModel.findOne({
+    Email: req.body.Email,
+  });
   if (user) {
     const mailOptions = {
-      from: "akibrotsamuelas@gmail.com",
-      to: user.Email,
-      subject: "Sending Email using Node.js from clinedt side",
+      from: "xxx",
+      // to: user.Email,
+      to:"one30836@gmail.com",
+      subject: "Sending bbb cccxxx",
       html: `<div><h1>Password recoverd seccessfully </h1> <h1>thank you  </h1> <p>your password is</p><u>${user.Password}</u></div>`,
     };
 
@@ -335,9 +344,9 @@ export const pushnotifications = expressAsyncHandler(async (req, res) => {
     const loadnoti = await PushNotificationModel.find();
     // console.log(loadnoti);
     const Agents = await AgentuserModel.updateMany({ Notification: loadnoti });
-    if(Agents){
-    res.send("notifications updated");
-    console.log("noti inserted");
+    if (Agents) {
+      res.send("notifications updated");
+      console.log("noti inserted");
     }
   }
   const test = [
@@ -413,5 +422,20 @@ export const getsingleheritage = expressAsyncHandler(async (req, res) => {
   if (save) {
     res.send(save);
     console.log("single heritage data sented");
+  }
+});
+
+//getrelatedheritages
+//get single heritages
+export const getrelatedheritages = expressAsyncHandler(async (req, res) => {
+  const category = req.body.test.category;
+  console.log(req.body);
+  const save = await HeritagesModel.find({
+    category: category,
+  });
+
+  if (save) {
+    res.send(save);
+    console.log("related data fatched");
   }
 });

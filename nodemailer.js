@@ -5,13 +5,14 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'akibrotsamuelas@gmail.com',
-    pass: '0932706240'
+    pass: 'kbjcmbhlvvyglcfu'
   }
+  
 });
 
 var mailOptions = {
-  from: 'akibrotsamuelas@gmail.com',
-  to: 'ssaakilal@gmail.com',
+  from: 'xxxx',
+  to: 'one30836@gmail.com',
   subject: 'Sending Email using Node.js',
   html: `<div><h1>Password recoverd seccessfully </h1> <h1>thank you  </h1> <p>your password</p><u>${1234567890}</u></div>`
   

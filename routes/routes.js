@@ -18,6 +18,7 @@ import {
   getcustomers,
   getfeedbacks,
   getrecomdations,
+  getrelatedheritages,
   getsingleheritage,
   getstastics,
   makerecommendation,
@@ -82,6 +83,8 @@ router.post("/deletecategory", deletecategory);
 router.post("/searchforheritages", searchforheritages);
 //getsingleheritage
 router.post("/getsingleheritage", getsingleheritage);
+//get related
+router.post("/getrelatedheritages", getrelatedheritages);
 
 
 
