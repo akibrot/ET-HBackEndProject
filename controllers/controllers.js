@@ -283,7 +283,32 @@ export const deleteagentaccount = expressAsyncHandler(async (req, res) => {
     console.log("feedback deleted");
   } else res.status(201).send("no data found");
 });
+//update agent user
+export const updateagentuser = expressAsyncHandler(async (req, res) => {
+  console.log(req.body);
+  const updateagent = await AgentuserModel.findByIdAndUpdate(
+    req.body._id,
 
+    {
+      FullName: req.body.FullName,
+      Address: req.body.Address,
+      Email: req.body.Email,
+      Phone: req.body.Phone,
+      Password: req.body.Password,
+      Profilepic: req.body.Profilepic,
+    }
+  );
+
+  if (updateagent) {
+    res.send("updated");
+    console.log("saved");
+  }
+  // const deletefeed = await AgentuserModel.updateOne(req.body._id);
+  // if (deletefeed) {
+  //   res.send("feedbavkdeleted");
+  //   console.log("feedback deleted");
+  // } else res.status(201).send("no data found");
+});
 //create admin account
 export const createadminaccount = expressAsyncHandler(async (req, res) => {
   console.log("agent create route");
@@ -356,7 +381,9 @@ export const pullnotifications = expressAsyncHandler(async (req, res) => {
     { $pull: { Notification: { subject: req.body.data.subject } } }
   );
   if (savetoarry) {
-   const  sentupdatednotifications=await AgentuserModel.findOne({_id:req.body._id})
+    const sentupdatednotifications = await AgentuserModel.findOne({
+      _id: req.body._id,
+    });
     res.send(sentupdatednotifications);
     console.log("notification deleted");
   }
@@ -426,5 +453,18 @@ export const getrelatedheritages = expressAsyncHandler(async (req, res) => {
   if (save) {
     res.send(save);
     console.log("related data fatched");
+  }
+});
+//getheritagesbypublisher
+export const getheritagesbypublisher = expressAsyncHandler(async (req, res) => {
+  const email = req.body.Email;
+  console.log(email)
+  const save = await HeritagesModel.find({
+    Email: email,
+  });
+
+  if (save) {
+    res.send(save);
+    console.log("sented published by me via email");
   }
 });

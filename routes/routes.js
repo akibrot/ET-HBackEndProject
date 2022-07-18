@@ -17,6 +17,7 @@ import {
   getallcategory,
   getcustomers,
   getfeedbacks,
+  getheritagesbypublisher,
   getrecomdations,
   getrelatedheritages,
   getsingleheritage,
@@ -28,6 +29,7 @@ import {
   searchforheritages,
   sendemailauto,
   sendfeedbacks,
+  updateagentuser,
   welcome,
 } from "../controllers/controllers.js";
 
@@ -64,6 +66,9 @@ router.post("/createagentsaccount", createagentsaccount);
 router.get("/getagentaccount", getagentaccount);
 //deleting agent
 router.post("/deleteagentaccount", deleteagentaccount);
+//update agent account
+router.post("/updateagentuser", updateagentuser);
+
 //createing admin accounts
 router.post("/createadminaccount", createadminaccount);
 //get admin accounts
@@ -89,6 +94,9 @@ router.post("/searchforheritages", searchforheritages);
 router.post("/getsingleheritage", getsingleheritage);
 //get related
 router.post("/getrelatedheritages", getrelatedheritages);
+//getheritagesbypublisher
+router.post("/getheritagesbypublisher", getheritagesbypublisher);
+
 
 
 
