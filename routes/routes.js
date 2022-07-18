@@ -23,6 +23,7 @@ import {
   getstastics,
   makerecommendation,
   publishHeritage,
+  pullnotifications,
   pushnotifications,
   searchforheritages,
   sendemailauto,
@@ -73,6 +74,9 @@ router.post("/deleteadminaccounts", deleteadminaccounts);
 router.get("/getstastics", getstastics);
 //push notifications
 router.post("/pushnotifications", pushnotifications);
+//pull notifications
+router.post("/pullnotifications", pullnotifications);
+
 //create category list
 router.post("/createcategory", createcategory);
 //get all category

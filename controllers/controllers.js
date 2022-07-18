@@ -100,6 +100,7 @@ export const checklogin = expressAsyncHandler(async (req, res) => {
     console.log("user found");
 
     const userinfo = {
+      _id: AgentUser._id,
       FullName: AgentUser.FullName,
       Address: AgentUser.Address,
       Email: AgentUser.Email,
@@ -154,8 +155,8 @@ export const sendemailauto = expressAsyncHandler(async (req, res) => {
     service: "gmail",
 
     auth: {
-      user: 'akibrotsamuelas@gmail.com',
-    pass: 'kbjcmbhlvvyglcfu'
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
     },
   });
   const user = await CustomerUserModel.findOne({
@@ -169,10 +170,10 @@ export const sendemailauto = expressAsyncHandler(async (req, res) => {
   });
   if (user) {
     const mailOptions = {
-      from: "xxx",
+      from: process.env.EMAIL,
       // to: user.Email,
-      to:"one30836@gmail.com",
-      subject: "Sending bbb cccxxx",
+      to: req.body.Email,
+      subject: "Password Recovery From Ethiopia heritages",
       html: `<div><h1>Password recoverd seccessfully </h1> <h1>thank you  </h1> <p>your password is</p><u>${user.Password}</u></div>`,
     };
 
@@ -336,41 +337,29 @@ export const getstastics = expressAsyncHandler(async (req, res) => {
 
 //pushnotifications
 export const pushnotifications = expressAsyncHandler(async (req, res) => {
-  console.log(req.body);
-  const insertinnotificationdb = await PushNotificationModel.insertMany(
-    req.body
-  );
-  if (insertinnotificationdb) {
-    const loadnoti = await PushNotificationModel.find();
-    // console.log(loadnoti);
-    const Agents = await AgentuserModel.updateMany({ Notification: loadnoti });
-    if (Agents) {
-      res.send("notifications updated");
-      console.log("noti inserted");
-    }
+  // console.log(req.body);
+
+  const savetoarry = await AgentuserModel.updateMany({
+    $push: { Notification: req.body },
+  });
+  if (savetoarry) {
+    res.send("saved");
+    console.log("notification sented");
   }
-  const test = [
-    {
-      subject: "test subject",
-      discription: "test description",
-    },
-    {
-      subject: "test subject 2",
-      discription: "test description 2",
-    },
-    {
-      subject: "test subject 4",
-      discription: "test description 2",
-    },
-  ];
-  // const Agents = await AgentuserModel.updateMany({Notification:test});
-  // const Agents2 = await AgentuserModel.up({Notification:test});
-  // const test1=Agents.filter((f)=>f.Notification.length>0)
-  // console.log(test1)
-  // if (Agents) {
-  //   console.log("data saved");
-  //   res.send("inserted")
-  // }
+});
+//pullhnotifications
+export const pullnotifications = expressAsyncHandler(async (req, res) => {
+  // console.log(req.body.data._id);
+  // console.log(req.body.data.subject);
+  const savetoarry = await AgentuserModel.updateMany(
+    { _id: req.body.data._id },
+    { $pull: { Notification: { subject: req.body.data.subject } } }
+  );
+  if (savetoarry) {
+   const  sentupdatednotifications=await AgentuserModel.findOne({_id:req.body._id})
+    res.send(sentupdatednotifications);
+    console.log("notification deleted");
+  }
 });
 //create category
 export const createcategory = expressAsyncHandler(async (req, res) => {

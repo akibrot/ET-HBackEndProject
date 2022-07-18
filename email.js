@@ -12,7 +12,7 @@ client.send(
   {
    
     from: "Ethiopian Heritages",
-    to: "one30836@gmail.com",
+    to: "bonadugesa36@gmail.com",
     cc: "",
     subject: "Greetings",
     text:"one30836@gmail.comone30836@gmail.comone30836@gmail.comone30836@gmail.com"
