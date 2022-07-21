@@ -4,12 +4,14 @@ import {
   createadminaccount,
   createagentsaccount,
   createcategory,
+  createTourAgents,
   CreateUser,
   deleteadminaccounts,
   deleteagentaccount,
   deletecategory,
   deletecustomers,
   deletefeedback,
+  Deletetouragents,
   DeleteUser,
   feedbackReadUpdate,
   getadminaccount,
@@ -18,14 +20,18 @@ import {
   getcustomers,
   getfeedbacks,
   getheritagesbypublisher,
+  GetNotificationsofagent,
   getrecomdations,
+  GetRecommendationsofagent,
   getrelatedheritages,
   getsingleheritage,
   getstastics,
+  getTouragents,
   makerecommendation,
   publishHeritage,
   pullnotifications,
   pushnotifications,
+  pushRecommendations,
   searchforheritages,
   sendemailauto,
   sendfeedbacks,
@@ -96,11 +102,19 @@ router.post("/getsingleheritage", getsingleheritage);
 router.post("/getrelatedheritages", getrelatedheritages);
 //getheritagesbypublisher
 router.post("/getheritagesbypublisher", getheritagesbypublisher);
-
-
-
-
-
+//tour agents model
+//create tour agents
+router.post("/createTourAgents", createTourAgents);
+//get all tour agents
+router.get("/getTouragents", getTouragents);
+//delete tour agents
+router.post("/Deletetouragents", Deletetouragents);
+//pushRecommendations
+router.post("/pushRecommendations", pushRecommendations);
+//GetRecommendationsofagent
+router.post("/GetRecommendationsofagent", GetRecommendationsofagent);
+//get notifications of agent
+router.post("/GetNotificationsofagent", GetNotificationsofagent);
 
 
 export default router;

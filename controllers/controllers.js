@@ -10,6 +10,7 @@ import expressAsyncHandler from "express-async-handler";
 import CategoryList from "../model/Category.js";
 import PushNotificationModel from "../model/PushNotificationModel.js";
 import dotenv from "dotenv";
+import TourAgentsModel from "../model/TouragentsModel.js";
 dotenv.config();
 export const welcome = expressAsyncHandler((req, res) => {
   res.send("server started sucesfully");
@@ -285,17 +286,20 @@ export const deleteagentaccount = expressAsyncHandler(async (req, res) => {
 });
 //update agent user
 export const updateagentuser = expressAsyncHandler(async (req, res) => {
-  console.log(req.body);
-  const updateagent = await AgentuserModel.findByIdAndUpdate(
-    req.body._id,
+  // console.log(req.body);
+  // console.log(req.body.updateddata._id);
+  const data = req.body.updateddata;
+  console.log("update route reched");
+  const updateagent = await AgentuserModel.updateOne(
+    { _id: data._id },
 
     {
-      FullName: req.body.FullName,
-      Address: req.body.Address,
-      Email: req.body.Email,
-      Phone: req.body.Phone,
-      Password: req.body.Password,
-      Profilepic: req.body.Profilepic,
+      FullName: data.FullName,
+      Address: data.Address,
+      Email: data.Email,
+      Phone: data.Phone,
+      Password: data.Password,
+      Profilepic: data.Profilepic,
     }
   );
 
@@ -438,6 +442,8 @@ export const getsingleheritage = expressAsyncHandler(async (req, res) => {
   if (save) {
     res.send(save);
     console.log("single heritage data sented");
+  } else {
+    res.status(404).send("resource not found");
   }
 });
 
@@ -458,7 +464,7 @@ export const getrelatedheritages = expressAsyncHandler(async (req, res) => {
 //getheritagesbypublisher
 export const getheritagesbypublisher = expressAsyncHandler(async (req, res) => {
   const email = req.body.Email;
-  console.log(email)
+  console.log(email);
   const save = await HeritagesModel.find({
     Email: email,
   });
@@ -467,4 +473,76 @@ export const getheritagesbypublisher = expressAsyncHandler(async (req, res) => {
     res.send(save);
     console.log("sented published by me via email");
   }
+});
+
+///tour agents
+///createagentsaccount
+export const createTourAgents = expressAsyncHandler(async (req, res) => {
+  console.log("agent create route");
+  const save = await TourAgentsModel.insertMany(req.body);
+  if (save) {
+    res.send("agent created");
+    console.log("agent created");
+  }
+});
+///get agent accounn user
+export const getTouragents = expressAsyncHandler(async (req, res) => {
+  const save = await TourAgentsModel.find();
+  const arr = [];
+  if (save) {
+    res.send(save);
+    console.log("getrecomdations route reched data loaded");
+  } else res.status(201).send("no data found");
+});
+
+//delete agent account
+export const Deletetouragents = expressAsyncHandler(async (req, res) => {
+  const deletefeed = await TourAgentsModel.findByIdAndDelete(req.body._id);
+  if (deletefeed) {
+    res.send("feedbavkdeleted");
+    console.log("feedback deleted");
+  } else res.status(201).send("no data found");
+});
+//**** */
+
+//add recmmendation
+//pushRecommendations
+export const pushRecommendations = expressAsyncHandler(async (req, res) => {
+  console.log(req.body);
+
+  const savetoarry = await AgentuserModel.updateMany(
+    { _id: req.body._id },
+    {
+      $push: { Recommended: req.body.Data },
+    }
+  );
+  if (savetoarry) {
+    res.send("saved");
+    console.log("recommendation sented to agent");
+  }
+  // res.status(200).send("get");
+});
+//GetRecommendationsofagent
+export const GetRecommendationsofagent = expressAsyncHandler(
+  async (req, res) => {
+    console.log(req.body);
+
+    const savetoarry = await AgentuserModel.findById({ _id: req.body._id });
+    if (savetoarry) {
+      // res.send("savetoarry");
+      res.send(savetoarry.Recommended);
+    }
+    // res.status(200).send("get");
+  }
+);
+//GetNotificationsofagent
+export const GetNotificationsofagent = expressAsyncHandler(async (req, res) => {
+  console.log(req.body);
+
+  const savetoarry = await AgentuserModel.findById({ _id: req.body._id });
+  if (savetoarry) {
+    // res.send("savetoarry");
+    res.send(savetoarry.Notification);
+  }
+  // res.status(200).send("get");
 });
