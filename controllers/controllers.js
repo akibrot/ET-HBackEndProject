@@ -474,6 +474,18 @@ export const getheritagesbypublisher = expressAsyncHandler(async (req, res) => {
     console.log("sented published by me via email");
   }
 });
+//getpopularheritages
+export const getpopularheritages = expressAsyncHandler(async (req, res) => {
+  
+  const save = await HeritagesModel.find({
+    Popular: true,
+  });
+
+  if (save) {
+    res.send(save);
+    console.log("sented popular heritages");
+  }
+});
 
 ///tour agents
 ///createagentsaccount
@@ -545,4 +557,21 @@ export const GetNotificationsofagent = expressAsyncHandler(async (req, res) => {
     res.send(savetoarry.Notification);
   }
   // res.status(200).send("get");
+});
+
+//make popular
+export const makepopularheritage = expressAsyncHandler(async (req, res) => {
+  var data;
+  if (req.body.Popular == true) {
+    data = false;
+  } else if (req.body.Popular == false) {
+    data = true;
+  }
+
+  const save = await HeritagesModel.findByIdAndUpdate(req.body._id, {
+    Popular: data,
+  });
+  if (save) {
+    console.log("heritage popular updated");
+  } else res.status(201).send("no data found");
 });

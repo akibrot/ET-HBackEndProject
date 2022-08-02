@@ -21,12 +21,14 @@ import {
   getfeedbacks,
   getheritagesbypublisher,
   GetNotificationsofagent,
+  getpopularheritages,
   getrecomdations,
   GetRecommendationsofagent,
   getrelatedheritages,
   getsingleheritage,
   getstastics,
   getTouragents,
+  makepopularheritage,
   makerecommendation,
   publishHeritage,
   pullnotifications,
@@ -115,6 +117,9 @@ router.post("/pushRecommendations", pushRecommendations);
 router.post("/GetRecommendationsofagent", GetRecommendationsofagent);
 //get notifications of agent
 router.post("/GetNotificationsofagent", GetNotificationsofagent);
-
+//makepopularheritage
+router.post("/makepopularheritage", makepopularheritage);
+//getpopularheritages
+router.get("/getpopularheritages", getpopularheritages);
 
 export default router;
