@@ -290,23 +290,26 @@ export const updateagentuser = expressAsyncHandler(async (req, res) => {
   // console.log(req.body.updateddata._id);
   const data = req.body.updateddata;
   console.log("update route reched");
-  const updateagent = await AgentuserModel.updateOne(
-    { _id: data._id },
-
-    {
-      FullName: data.FullName,
-      Address: data.Address,
-      Email: data.Email,
-      Phone: data.Phone,
-      Password: data.Password,
-      Profilepic: data.Profilepic,
-    }
-  );
-
-  if (updateagent) {
-    res.send("updated");
-    console.log("saved");
+  const oldpasscheck = await AgentuserModel.findOne({
+    Password: data.Password,
+  });
+  if(oldpasscheck){
+    await AgentuserModel.updateOne(
+      { _id: data._id },
+  
+      {
+        Password: data.Newpassword,
+        Profilepic: data.Profilepic,
+      }
+    );
+    res.send("updated")
   }
+ else{
+  // res.status(501).send("error")
+  res.error("error").send("error")
+ }
+
+  
   // const deletefeed = await AgentuserModel.updateOne(req.body._id);
   // if (deletefeed) {
   //   res.send("feedbavkdeleted");
@@ -425,9 +428,12 @@ export const searchforheritages = expressAsyncHandler(async (req, res) => {
   const save = await HeritagesModel.find({
     NameOfHeritage: { $regex: searchkey, $options: "-i" },
   });
-
-  if (save) {
-    res.send(save);
+  const park = await HeritagesModel.find({
+    category: { $regex: searchkey, $options: "-i" },
+  });
+  const data = park.concat(save);
+  if (save || park) {
+    res.send(data);
     console.log("search  data sented");
     // console.log(save);
   }
@@ -476,7 +482,6 @@ export const getheritagesbypublisher = expressAsyncHandler(async (req, res) => {
 });
 //getpopularheritages
 export const getpopularheritages = expressAsyncHandler(async (req, res) => {
-  
   const save = await HeritagesModel.find({
     Popular: true,
   });
@@ -497,6 +502,21 @@ export const createTourAgents = expressAsyncHandler(async (req, res) => {
     console.log("agent created");
   }
 });
+//
+///get agent accounn user
+export const gettouragentaccound = expressAsyncHandler(async (req, res) => {
+  console.log("get tour agent")
+  console.log(req.body)
+  const save = await TourAgentsModel.findOne({
+    FullName:req.body.Fullnamee
+  });
+  
+  if (save) {
+    res.send(save);
+    console.log("tour agent account get");
+  } else res.status(201).send("no data found");
+});
+//
 ///get agent accounn user
 export const getTouragents = expressAsyncHandler(async (req, res) => {
   const save = await TourAgentsModel.find();
@@ -573,5 +593,32 @@ export const makepopularheritage = expressAsyncHandler(async (req, res) => {
   });
   if (save) {
     console.log("heritage popular updated");
+  } else res.status(201).send("no data found");
+});
+
+//deleterecommended
+export const deleterecommended = expressAsyncHandler(async (req, res) => {
+  const deletefeed = await RecommendationsModel.findByIdAndDelete(req.body._id);
+  if (deletefeed) {
+    res.send("feedbavkdeleted");
+    console.log("recomndation deleted ");
+  } else res.status(201).send("no data found");
+});
+
+//banuserfromthesystem
+export const banuserfromthesystem = expressAsyncHandler(async (req, res) => {
+  console.log("test data");
+  var data;
+  if (req.body.strik == true) {
+    data = false;
+  } else if (req.body.strik == false) {
+    data = true;
+  }
+
+  const save = await CustomerUserModel.findByIdAndUpdate(req.body._id, {
+    Banned: data,
+  });
+  if (save) {
+    console.log("banuserfromthesystem");
   } else res.status(201).send("no data found");
 });

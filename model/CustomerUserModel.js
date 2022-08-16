@@ -8,6 +8,7 @@ const NormalUserSchema = mongoose.Schema({
   Email: { type: String, unique: true },
   Phone: { type: String,},
   Password: { type: String },
+  Banned: { type: Boolean,default:false },
 });
 const CustomerUserModel = mongoose.model("CustomerUserModel", NormalUserSchema);
 export default CustomerUserModel;

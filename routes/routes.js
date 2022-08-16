@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  banuserfromthesystem,
   checklogin,
   createadminaccount,
   createagentsaccount,
@@ -11,6 +12,7 @@ import {
   deletecategory,
   deletecustomers,
   deletefeedback,
+  deleterecommended,
   Deletetouragents,
   DeleteUser,
   feedbackReadUpdate,
@@ -27,6 +29,7 @@ import {
   getrelatedheritages,
   getsingleheritage,
   getstastics,
+  gettouragentaccound,
   getTouragents,
   makepopularheritage,
   makerecommendation,
@@ -121,5 +124,15 @@ router.post("/GetNotificationsofagent", GetNotificationsofagent);
 router.post("/makepopularheritage", makepopularheritage);
 //getpopularheritages
 router.get("/getpopularheritages", getpopularheritages);
+//deleterecommended
+router.post("/deleterecommended", deleterecommended);
+
+//banuserfromthesystem
+router.post("/banuserfromthesystem", banuserfromthesystem);
+
+//gettouragentaccound
+router.post("/gettouragentaccound", gettouragentaccound);
+
+
 
 export default router;
