@@ -5,17 +5,13 @@ import {
   createadminaccount,
   createagentsaccount,
   createcategory,
-  createProject,
-  createTask,
   createTourAgents,
-  createUser,
   CreateUser,
   deleteadminaccounts,
   deleteagentaccount,
   deletecategory,
   deletecustomers,
   deletefeedback,
-  deleteProject,
   deleterecommended,
   Deletetouragents,
   DeleteUser,
@@ -28,16 +24,13 @@ import {
   getheritagesbypublisher,
   GetNotificationsofagent,
   getpopularheritages,
-  getProjects,
   getrecomdations,
   GetRecommendationsofagent,
   getrelatedheritages,
   getsingleheritage,
   getstastics,
-  getTask,
   gettouragentaccound,
   getTouragents,
-  getUsers,
   makepopularheritage,
   makerecommendation,
   publishHeritage,
@@ -139,14 +132,5 @@ router.post("/banuserfromthesystem", banuserfromthesystem);
 
 //gettouragentaccound
 router.post("/gettouragentaccound", gettouragentaccound);
-
-////
-router.post("/createUser", createUser);
-router.get("/getUsers", getUsers);
-router.get("/getProjects", getProjects);
-router.post("/createProject", createProject);
-router.post("/createTask", createTask);
-router.post("/deleteProject", deleteProject);
-router.post("/getTask", getTask);
 
 export default router;
